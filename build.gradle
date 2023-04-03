@@ -27,25 +27,58 @@ dependencies {
     compileOnly("org.graalvm.nativeimage:svm")
 
     implementation("io.micronaut:micronaut-validation")
-
 }
-
 
 application {
     mainClass.set("io.github.rjaros87.Application")
 }
+
+tasks {
+    dockerBuild {
+        images = ["${System.env.DOCKER_IMAGE ?: "rjaros87/" + project.name + "-regular"}:$project.version"]
+    }
+
+    dockerBuildNative {
+        images = ["${System.env.DOCKER_IMAGE_GRAALVM ?: "rjaros87/" + project.name + "-graalvm"}:$project.version"]
+    }
+
+    dockerBuildCrac {
+        images = ["${System.env.DOCKER_IMAGE_CRAC ?: "rjaros87/" + project.name + "-crac"}:$project.version"]
+    }
+}
+
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")
 }
 
 graalvmNative.toolchainDetection = false
+
 micronaut {
     runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
         annotations("io.github.rjaros87.*")
+    }
+
+    crac {
+        // is the plugin enabled or not
+        enabled = true
+        network = "localinfrastrucutre_app-tier"
+
+        // the base docker image to use for the Checkpoint and final images
+        baseImage = "ubuntu:22.04"
+
+        // The platform to build the image for (currently must be linux/amd64)
+        platform = "linux/amd64"
+
+        // A command to run that will be successful when the application is ready to be checkpointed.
+        preCheckpointReadinessCommand = "curl --output /dev/null  -XGET -sS 'http://localhost:8080/health'"
+
+        // You can use these to replace the script that generates a checkpoint, and the script that warms up the
+        // application prior to checkpointing
+        warmupScript = file("customWarmupScript.sh")
     }
 }
 
