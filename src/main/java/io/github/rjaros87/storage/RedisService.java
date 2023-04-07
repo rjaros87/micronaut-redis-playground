@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 @Refreshable
 @Singleton
 public class RedisService implements ApplicationEventListener<RefreshEvent>  {
-    public final static String REDIS_CHANNEL = "channel";
+    public static final String REDIS_CHANNEL = "channel";
 
     private final StatefulRedisConnection<String, String> redisConnection;
     private final StatefulRedisPubSubConnection<String, String> redisSubConnection;

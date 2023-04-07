@@ -49,19 +49,19 @@ services:
 #    depends_on:
 #      - redis-master
 #
-  redis-playground-crac:
-    image: 'rjaros87/micronaut-redis-playground-crac:0.1'
-    environment:
-      - REDIS_DEFAULT_HOST=redis-master
-      - REDIS_DEFAULT_PORT=6379
-      - REDIS_PUB_PORT=6379
-      - REDIS_SUB_PORT=6379
-      - REDIS_PASSWORD=changeit
-      - REDIS_PUB_PASSWORD=changeit
-      - REDIS_SUB_PASSWORD=changeit
-    networks:
-      - app-tier
-    ports:
-      - '8080:8080'
-    depends_on:
-      - redis-master
+#  redis-playground-crac:
+#    image: 'rjaros87/micronaut-redis-playground-crac:0.1'
+#    environment:
+#      - REDIS_DEFAULT_HOST=redis-master
+#      - REDIS_DEFAULT_PORT=6379
+#      - REDIS_PUB_PORT=6379
+#      - REDIS_SUB_PORT=6379
+#      - REDIS_PASSWORD=changeit
+#      - REDIS_PUB_PASSWORD=changeit
+#      - REDIS_SUB_PASSWORD=changeit
+#    networks:
+#      - app-tier
+#    ports:
+#      - '8080:8080'
+#    depends_on:
+#      - redis-master
